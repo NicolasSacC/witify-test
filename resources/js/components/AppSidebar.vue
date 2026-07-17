@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from '@lucide/vue';
+import {
+    LayoutGrid,
+    PackageSearch,
+    ShoppingCart,
+    Warehouse,
+} from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -15,6 +19,9 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as inventoryIndex } from '@/routes/inventory';
+import { index as ordersIndex } from '@/routes/orders';
+import { index as warehousesIndex } from '@/routes/warehouses';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -23,18 +30,20 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: FolderGit2,
+        title: 'Orders',
+        href: ordersIndex(),
+        icon: ShoppingCart,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'Warehouses',
+        href: warehousesIndex(),
+        icon: Warehouse,
+    },
+    {
+        title: 'Inventory',
+        href: inventoryIndex(),
+        icon: PackageSearch,
     },
 ];
 </script>
@@ -58,7 +67,6 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>
