@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
-import {
-    BookOpen,
-    ClipboardList,
-    PackageSearch,
-    ShoppingCart,
-} from '@lucide/vue';
+import { Head } from '@inertiajs/vue3';
+import { BookOpen, ClipboardList } from '@lucide/vue';
 import {
     Card,
     CardDescription,
@@ -13,8 +8,6 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { dashboard } from '@/routes';
-import { index as inventoryIndex } from '@/routes/inventory';
-import { index as ordersIndex } from '@/routes/orders';
 
 defineOptions({
     layout: {
@@ -76,32 +69,6 @@ const repositoryUrl = 'https://github.com/witify/witify-takehome';
                     </CardHeader>
                 </Card>
             </a>
-
-            <Link :href="ordersIndex()">
-                <Card class="h-full transition-colors hover:bg-muted/50">
-                    <CardHeader>
-                        <ShoppingCart class="size-5 text-muted-foreground" />
-                        <CardTitle>Orders</CardTitle>
-                        <CardDescription>
-                            Browse the demo orders. The reservation feature
-                            starts from an order's page.
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-            </Link>
-
-            <Link :href="inventoryIndex()">
-                <Card class="h-full transition-colors hover:bg-muted/50">
-                    <CardHeader>
-                        <PackageSearch class="size-5 text-muted-foreground" />
-                        <CardTitle>Inventory</CardTitle>
-                        <CardDescription>
-                            Stock per product and warehouse, computed from the
-                            movement journal.
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-            </Link>
         </div>
     </div>
 </template>
