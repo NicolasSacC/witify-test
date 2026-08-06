@@ -18,7 +18,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['order_id', 'product_id', 'quantity_ordered', 'unit_price'])]
+#[Fillable(['order_id', 'product_id', 'quantity_ordered', 'quantity_reserved', 'unit_price'])]
 class OrderLine extends Model
 {
     /** @use HasFactory<OrderLineFactory> */
@@ -34,6 +34,10 @@ class OrderLine extends Model
         return [
             'unit_price' => 'decimal:2',
         ];
+    }
+
+    public function getQuantityRemainingAttribute(): int {
+        return $this->quantity_ordered - $this->quantity_reserved;
     }
 
     /**

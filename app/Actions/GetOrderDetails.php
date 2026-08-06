@@ -24,10 +24,8 @@ class GetOrderDetails implements Action
                 'sku' => $line->product->sku,
             ],
             'quantity_ordered' => $line->quantity_ordered,
-            // Reservations are not implemented yet: nothing is reserved,
-            // so the full ordered quantity remains to be reserved.
-            'quantity_reserved' => 0,
-            'quantity_remaining' => $line->quantity_ordered,
+            'quantity_reserved' => $line->quantity_reserved,
+            'quantity_remaining' => $line->quantity_remaining,
             'unit_price' => (float) $line->unit_price,
             'line_total' => round($line->quantity_ordered * (float) $line->unit_price, 2),
         ]);

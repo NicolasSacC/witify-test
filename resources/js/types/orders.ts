@@ -31,3 +31,10 @@ export type OrderDetail = {
     lines: OrderLine[];
     total: number;
 };
+
+export type WarehouseProductStock = {
+    id: number;
+    name: string;
+    code: string;
+    stock: number;
+}
