@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useForm, useHttp } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
-import { index as warehouseStockIndex } from '@/routes/warehouses/stock';
+import InventoryReservationController from '@/actions/App/Http/Controllers/InventoryReservationController';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,9 +21,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import type { OrderLine, ProductInventory, Warehouse } from '@/types';
-import { WarehouseProductStock } from '@/types';
-import InventoryReservationController from '@/actions/App/Http/Controllers/InventoryReservationController';
+import { index as warehouseStockIndex } from '@/routes/warehouses/stock';
+import type { OrderLine } from '@/types';
+import type { WarehouseProductStock } from '@/types';
 
 const props = defineProps<{
     line: OrderLine | null;
@@ -34,36 +34,40 @@ const warehouses = ref<WarehouseProductStock[]>([]);
 
 const form = useForm({
     warehouse_id: null,
-    quantity: 1
+    quantity: 1,
 });
 
 const http = useHttp();
 
 async function loadWarehouseStock(productId: number) {
     const data = (await http.submit(
-        warehouseStockIndex({ product: productId })
+        warehouseStockIndex({ product: productId }),
     )) as { warehouses: WarehouseProductStock[] };
-
-    console.log(data);
 
     warehouses.value = data.warehouses ?? [];
 }
 
-watch(() => props.line, (line) => {
-    warehouses.value = [];
+watch(
+    () => props.line,
+    (line) => {
+        warehouses.value = [];
 
-    if (line) {
-        loadWarehouseStock(line.product.id);
-    }
-});
+        if (line) {
+            loadWarehouseStock(line.product.id);
+        }
+    },
+);
 
 const maxQuantityToReserve = computed(() => {
-    if(props.line && warehouses.value) {
-        return Math.min(props.line.quantity_remaining, warehouses.value.find((w) => w.id == form.warehouse_id)?.stock ?? 0);
+    if (props.line && warehouses.value) {
+        return Math.min(
+            props.line.quantity_remaining,
+            warehouses.value.find((w) => w.id == form.warehouse_id)?.stock ?? 0,
+        );
     }
 
     return 0;
-})
+});
 
 function submit() {
     if (!props.line) {
@@ -82,7 +86,6 @@ function submit() {
             form.reset();
         },
     });
-
 }
 </script>
 
@@ -131,7 +134,8 @@ function submit() {
                                 :value="warehouse.id"
                                 :disabled="warehouse.stock == 0"
                             >
-                                {{ warehouse.name }} ({{ warehouse.code }}) (stock: {{ warehouse.stock }})
+                                {{ warehouse.name }} ({{ warehouse.code }})
+                                (stock: {{ warehouse.stock }})
                             </SelectItem>
                         </SelectContent>
                     </Select>
@@ -147,10 +151,11 @@ function submit() {
                         :min="1"
                         :max="maxQuantityToReserve"
                     />
-                    <p class="text-xs mt-0.5 text-gray-700">Max: {{ maxQuantityToReserve }}</p>
+                    <p class="mt-0.5 text-xs text-gray-700">
+                        Max: {{ maxQuantityToReserve }}
+                    </p>
                     <InputError :message="form.errors.quantity" />
                 </div>
-
 
                 <DialogFooter>
                     <Button
@@ -166,11 +171,10 @@ function submit() {
                             form.processing || form.warehouse_id === null
                         "
                     >
-                        {{ form.processing ? 'Saving...' : 'Save adjustment' }}
+                        {{ form.processing ? 'Saving...' : 'Reserve' }}
                     </Button>
                 </DialogFooter>
             </form>
-
         </DialogContent>
     </Dialog>
 </template>

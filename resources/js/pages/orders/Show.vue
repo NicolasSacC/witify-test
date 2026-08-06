@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Head, setLayoutProps } from '@inertiajs/vue3';
-import { Badge } from '@/components/ui/badge';
-import { formatCurrency } from '@/lib/currency';
-import { index, show } from '@/routes/orders';
-import type { OrderDetail, ProductInventory } from '@/types';
-import { Button } from '@/components/ui/button';
 import { ref } from 'vue';
 import ReservationDialog from '@/components/ReservationDialog.vue';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { formatCurrency } from '@/lib/currency';
+import { index, show } from '@/routes/orders';
+import type { OrderDetail, OrderLine } from '@/types';
 
 const props = defineProps<{
     order: OrderDetail;

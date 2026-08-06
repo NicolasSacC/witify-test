@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\ReserveProduct;
 use App\Http\Requests\StoreInventoryReservationRequest;
 use App\Models\OrderLine;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Http\RedirectResponse;
 
 class InventoryReservationController extends Controller
 {

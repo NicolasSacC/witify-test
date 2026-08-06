@@ -36,7 +36,8 @@ class OrderLine extends Model
         ];
     }
 
-    public function getQuantityRemainingAttribute(): int {
+    public function getQuantityRemainingAttribute(): int
+    {
         return $this->quantity_ordered - $this->quantity_reserved;
     }
 

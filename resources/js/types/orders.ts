@@ -37,4 +37,4 @@ export type WarehouseProductStock = {
     name: string;
     code: string;
     stock: number;
-}
+};
